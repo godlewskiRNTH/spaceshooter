@@ -1,8 +1,19 @@
 def collision(sprite, otherSprite):
-    sprite.destroy(effects.fire, 1000)
+    sprite.destroy(effects.fire, 500)
+    otherSprite.destroy(effects.ashes, 500)
+    #scene.camera_shake(20, 1000)
+    music.big_crash.play()
+    info.player1.change_life_by(-1)
+
+
 
 def hit(sprite, otherSprite):
-    pass
+    sprite.destroy()
+    otherSprite.destroy(effects.ashes, 100)
+    music.big_crash.play()
+    info.player1.change_score_by(1)
+
+
 
 def shoot():
     laser = sprites.create_projectile_from_sprite(img("""
@@ -55,6 +66,10 @@ def spawner():
 
 # Background
 effects.star_field.start_screen_effect()
+
+# Set Score and Life 
+info.player1.set_life(1)
+info.player1.set_score(0)
 
 # Spaceship Configuration
 spaceship = sprites.create(img("""

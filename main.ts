@@ -1,5 +1,8 @@
 //  Background
 effects.starField.startScreenEffect()
+//  Set Score and Life 
+info.player1.setLife(1)
+info.player1.setScore(0)
 //  Spaceship Configuration
 let spaceship = sprites.create(img`
     . . . . . . . c d . . . . . . .
@@ -75,8 +78,15 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot() {
 })
 //  Check for collisions
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function collision(sprite: Sprite, otherSprite: Sprite) {
-    sprite.destroy(effects.fire, 1000)
+    sprite.destroy(effects.fire, 500)
+    otherSprite.destroy(effects.ashes, 500)
+    // scene.camera_shake(20, 1000)
+    music.bigCrash.play()
+    info.player1.changeLifeBy(-1)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function hit(sprite: Sprite, otherSprite: Sprite) {
-    
+    sprite.destroy()
+    otherSprite.destroy(effects.ashes, 100)
+    music.bigCrash.play()
+    info.player1.changeScoreBy(1)
 })
